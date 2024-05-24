@@ -28,15 +28,15 @@ contract CounterTest is Test {
         require(IERC20(tokenAddress).allowance(address(ownedMulticall), address(merkleDistributor)) >= tokenAmount, "tokenAmount not approved");
 
         // l2 timelock alias
-        vm.prank(address(0xddF3065C1Dc423451530bF7B493243234bA1F95A));
-        Multicall3.Call[] memory calls;
-        calls[0] = Multicall3.Call({
+        Multicall3.Call3[] memory calls = new Multicall3.Call3[](1);
+        calls[0] = Multicall3.Call3({
             target: address(merkleDistributor),
+            allowFailure: true,
             callData: abi.encodeWithSignature("setWindow(uint256,address,bytes32,string)", tokenAmount, tokenAddress, merkleRoot, ipfsHash)
         });
 
-        ownedMulticall.aggregate(calls);
-        merkleDistributor.setWindow(tokenAmount, tokenAddress, merkleRoot, ipfsHash);
+        vm.prank(address(0xddF3065C1Dc423451530bF7B493243234bA1F95A));
+        ownedMulticall.aggregate3(calls);
     }
 
 }
