@@ -31,7 +31,7 @@ contract CounterTest is Test {
         Multicall3.Call3[] memory calls = new Multicall3.Call3[](1);
         calls[0] = Multicall3.Call3({
             target: address(merkleDistributor),
-            allowFailure: true,
+            allowFailure: false,
             callData: abi.encodeWithSignature("setWindow(uint256,address,bytes32,string)", tokenAmount, tokenAddress, merkleRoot, ipfsHash)
         });
 
